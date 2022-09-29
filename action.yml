@@ -1,0 +1,25 @@
+# action.yaml
+name: 'Build Sphinx Documentation'
+description: 'Build sphinx documentation based on pyproject.toml'
+inputs:
+  python-version:
+    description: 'Python version'
+    required: true
+    default: "3.8"
+  
+  pyproject_path:
+    description: 'location of pyproject file'
+    required: true
+    default: 'pyproject.toml'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ inputs.python-version }}
+    - name: Parse information
+      id: project_info
+      run: python parser.py
+      shell: bash
