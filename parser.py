@@ -1,9 +1,19 @@
-"""Parse pyproject information"""
-import os
+# parser pyproject.toml information
 import tomli
+import sys
 
-project_path = os.environ.get("pyproject_path")
+if __name__ == "__main__":
 
-with open(project_path, "rb") as f:
-    data = tomli.load(f)
-    print(data["tool"]["poetry"]["version"])
+    project_path = sys.argv[1]
+
+    with open(project_path, "rb") as f:
+        data = tomli.load(f)
+
+    dep_list = []
+    for key, value in data["tool"]["poetry"]["dev-dependencies"].items():
+        value = value.replace("^", "==")
+        dep_list.append(f"{key}{value}")
+
+    pip_deps = " ".join(dep_list)
+
+    sys.stdout.write(f"::set-output name=DEP::{pip_deps}")
