@@ -1,29 +1,36 @@
 # action.yaml
-name: 'Build and deploy python Sphinx documentation'
-description: 'Build sphinx documentation based on pyproject.toml'
+name: "Build and deploy python Sphinx documentation"
+description: "Build sphinx documentation based on pyproject.toml"
 inputs:
   python-version:
-    description: 'Python version'
+    description: "Python version"
     required: true
     default: "3.8"
   pyproject-path:
-    description: 'location of pyproject file'
+    description: "location of pyproject file"
     required: true
-    default: 'pyproject.toml'
+    default: "pyproject.toml"
   docs-source:
-    description: 'sphinx docs source path'
+    description: "sphinx docs source path"
     required: true
-    default: 'docs/'
+    default: "docs/"
   docs-build:
-    description: 'sphinx docs build path'
+    description: "sphinx docs build path"
     required: true
-    default: 'docs_build/'
+    default: "docs_build/"
   external-repo:
-    description: 'external repository'
+    description: "external repository"
     required: true
+  external-repo-branch:
+    description: "branch of external repository"
+    required: true
+    default: "master"
+  deploy-token:
+    description: "deploy key" # normally secretes.token
+    required: true 
 
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
     - name: Checkout repository content
       uses: actions/checkout@v2 # Checkout the repository content to github runner.
@@ -35,16 +42,16 @@ runs:
       run: python -m pip install tomli
     - name: Parse pyproject.toml
       id: project-info
-      run: python parser.py ${{inputs.pyproject-path}}
+      run: python parser.py ${{ inputs.pyproject-path }}
       shell: bash
     - name: Install Package Dependencies
-      run: python -m pip install ${{steps.project-info.outputs.DEP}}
+      run: python -m pip install ${{ steps.project-info.outputs.DEP }}
     - name: Build sphinx
-      run: sphinx-build -b html ${{inputs.docs-source}} ${{inputs.docs-build}}
+      run: sphinx-build -b html ${{ inputs.docs-source }} ${{ inputs.docs-build }}
     - name: Deploy to external repos
       uses: peaceiris/actions-gh-pages@v3
       with:
-        deploy_key: ${{ secrets.PRIVATE_TOKEN }}
-        external_repository: ${{inputs.external-repo}}
-        publish_branch: master
-        publish_dir: ${{inputs.docs-build}}
+        deploy_key: ${{ inputs.deploy-token }}
+        external_repository: ${{ inputs.external-repo }}
+        publish_branch: ${{ inputs.external-repo-branch }}
+        publish_dir: ${{ inputs.docs-build }}
