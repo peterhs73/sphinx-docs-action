@@ -13,8 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add unit tests.
 
 ### Changed
-- Allow repository to specify the dependency location.
-- Change parse file name to "parse.py" to avoid stdlib naming collision.
+- Allow the repository to specify the dependency location.
+- Change the parse file name to "parse.py" to avoid stdlib naming collision.
 
 ## [0.0.2]
 
