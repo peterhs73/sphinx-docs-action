@@ -1,6 +1,9 @@
 # action.yaml
 name: "Build and deploy python Sphinx documentation"
 description: "Build sphinx documentation based on pyproject.toml"
+branding:
+  icon: 'corner-right-up'
+  color: 'green'
 inputs:
   python-version:
     description: "Python version"
