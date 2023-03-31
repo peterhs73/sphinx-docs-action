@@ -100,6 +100,9 @@ if __name__ == "__main__":
     project_path = sys.argv[1]
     dependency_path = sys.argv[2]
 
-    pip_deps = parse_pyproject(project_path, dependency_path)
+    with open(project_path, "rb") as f:
+        pyproject_data = tomli.load(f)
+
+    pip_deps = parse_pyproject(pyproject_data, dependency_path)
 
     sys.stdout.write(f"::set-output name=DEP::{pip_deps}")
