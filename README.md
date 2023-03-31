@@ -1,30 +1,16 @@
 # sphinx-docs
 Build and deploy sphinx documentation based on pyproject.toml parameters.
+Currently, the action only parses required packages from pyproject.toml.
+The user needs to input the dependency location, i.e. ``tool.poetry.dependencies``.
+The parser installs all dependencies including the optional ones.
 
-Current the action only parses required packages from pyproject.toml. The packages
-needs to be listed under `tool.poetry.dev-dependencies`.
+For poetry style dependencies, the versioning is converted to the pip style. For details on poetry dependencies, please refer to [poetry documentation](https://python-poetry.org/docs/dependency-specification/).
+
+For setuptools dependencies, the user needs to input the dependency list location, to access the dependencies under "[project]" section, the "dependency-path" should be "project.dependencies".
 
 An example of using this action:
-
-```yaml
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy
-        uses: peterhs73/sphinx-docs-action@v0.0.1
-        with:
-          python-version: 3.8 # defaults to 3.8
-          pyproject-path: pyproject.toml # defaults to pyproject.toml
-          docs-source: docs/ # defaults to docs/
-          docs-build: docs_build/ # defaults to docs_build/
-          external-repo: <username>/<repo-name>
-          external-repo-branch: gh-pages # defaults to master
-          deploy-token: ${{ secrets.PRIVATE_TOKEN}}
-```
-
-To push documentations to the external github page, an ssh key pair needs to be created.
-Once ssh key are generated 
+To push documentation to the external GitHub page, an ssh key pair needs to be created.
+Once ssh key is generated 
 ([how to generate new ssh key](https://docs.github.com/en/authentication/
 connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)),
 store the public key in the external repository (settings > security > deploy keys > 
