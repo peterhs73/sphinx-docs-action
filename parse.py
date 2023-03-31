@@ -14,7 +14,7 @@ def caret_version(version):
 
     if int(major_version) > 0 or minor_version is None:
         upper_version = int(major_version) + 1
-        version_str = f">={version} <{upper_version}.0.0"
+        version_str = f'">={version},<{upper_version}.0.0"'
     else:
         version_match = re.match(regex_version, minor_version)
         major_minor_version = version_match.group(1)
@@ -22,10 +22,10 @@ def caret_version(version):
 
         if int(major_minor_version) > 0 or minor_minor_version is None:
             upper_version = int(major_minor_version) + 1
-            version_str = f">={version} <0.{upper_version}.0"
+            version_str = f'">={version},<0.{upper_version}.0"'
         else:
             upper_version = int(minor_minor_version) + 1
-            version_str = f">={version} <0.0.{upper_version}"
+            version_str = f'">={version},<0.0.{upper_version}"'
 
     return version_str
 
@@ -38,19 +38,27 @@ def modify_string(version_string):
     versions, they are replaced by "~=". For >, <, >=, <=, they are
     kept as is.
     """
+    # check for a tilde
     if version_string.startswith("~"):
         regex_tilde = r"^~=?\s*([0-9.*]+)$"
         replace_tilde = r"~=\1"
         return re.sub(regex_tilde, replace_tilde, version_string)
 
+    # check for a caret
     if version_string.startswith("^"):
         regex_caret = r"\^\s*([0-9.*]+)$"
         caret_match = re.match(regex_caret, version_string)
         return caret_version(caret_match.group(1))
 
-    regex = r"^=?\s*([0-9.*]+)$"
-    replace = r"==\1"
-    dep_str = re.sub(regex, replace, version_string)
+    # check for a range
+    regex_range = r"([><=]+\s*[0-9.*]+)\s*,?([><=]+\s*[0-9.*]+)$"
+    range_match = re.match(regex_range, version_string)
+    if range_match:
+        return f'"{range_match.group(1)},{range_match.group(2)}"'
+    else:
+        regex = r"^=?\s*([0-9.*]+)$"
+        replace = r"==\1"
+        dep_str = re.sub(regex, replace, version_string)
     return dep_str
 
 

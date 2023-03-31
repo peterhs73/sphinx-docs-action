@@ -13,13 +13,13 @@ from parse import (
 @pytest.mark.parametrize(
     "input_string, expected_output",
     [
-        ("1.2.3", ">=1.2.3 <2.0.0"),
-        ("1.2", ">=1.2 <2.0.0"),
-        ("1", ">=1 <2.0.0"),
-        ("0.2.3", ">=0.2.3 <0.3.0"),
-        ("0.0.3", ">=0.0.3 <0.0.4"),
-        ("0.0", ">=0.0 <0.1.0"),
-        ("0", ">=0 <1.0.0"),
+        ("1.2.3", '">=1.2.3,<2.0.0"'),
+        ("1.2", '">=1.2,<2.0.0"'),
+        ("1", '">=1,<2.0.0"'),
+        ("0.2.3", '">=0.2.3,<0.3.0"'),
+        ("0.0.3", '">=0.0.3,<0.0.4"'),
+        ("0.0", '">=0.0,<0.1.0"'),
+        ("0", '">=0,<1.0.0"'),
     ],
 )
 def test_caret_version(input_string, expected_output):
@@ -38,7 +38,7 @@ def test_caret_version(input_string, expected_output):
         # space in between
         ("=  1.0.0", "==1.0.0"),
         # caret
-        ("^ 1.0.0", ">=1.0.0 <2.0.0"),
+        ("^ 1.0.0", '">=1.0.0,<2.0.0"'),
         # tilde
         ("~1.0.0", "~=1.0.0"),
         ("~=1.0.0", "~=1.0.0"),
@@ -52,8 +52,10 @@ def test_caret_version(input_string, expected_output):
         ("<1.0.0", "<1.0.0"),
         ("<=1.0.0", "<=1.0.0"),
         (">=1.0.0", ">=1.0.0"),
-        ("> 1.0.0 < 2.0.0", "> 1.0.0 < 2.0.0"),
-        (">= 1.0.0 < 2.0.0", ">= 1.0.0 < 2.0.0"),
+        # range of versions
+        ("> 1.0.0 < 2.0.0", '"> 1.0.0,< 2.0.0"'),
+        ("> 1.0.0,< 2.0.0", '"> 1.0.0,< 2.0.0"'),
+        (">= 1.0.0 < 2.0.0", '">= 1.0.0,< 2.0.0"'),
     ],
 )
 def test_modify_string(input_string, expected_output):
@@ -98,7 +100,7 @@ def test_parse_dependency_dict(pyproject_value):
         "tomli>=2.0.0",
         "tox==3.24.5",
         "tox-gh-actions==2.10.0",
-        "sphinx>=6.1.3 <7.0.0",
+        'sphinx">=6.1.3,<7.0.0"',
         "sphinx-rtd-theme~=1.0.0",
     ]
 
@@ -110,7 +112,7 @@ def test_parse_pyproject(pyproject_value):
 
     expected_poetry = (
         "tomli>=2.0.0 tox==3.24.5 tox-gh-actions==2.10.0 "
-        "sphinx>=6.1.3 <7.0.0 sphinx-rtd-theme~=1.0.0"
+        'sphinx">=6.1.3,<7.0.0" sphinx-rtd-theme~=1.0.0'
     )
     expected_stanard = "docutils BazSpam == 1.1"
     assert (
@@ -129,7 +131,7 @@ def test_main(tmp_path, pyproject_str, capsys):
     expected_poetry = (
         "::set-output name=DEP::"
         "tomli>=2.0.0 tox==3.24.5 tox-gh-actions==2.10.0 "
-        "sphinx>=6.1.3 <7.0.0 sphinx-rtd-theme~=1.0.0"
+        'sphinx">=6.1.3,<7.0.0" sphinx-rtd-theme~=1.0.0'
     )
     main(str(toml_path), "tool.poetry.dependencies")
     captured = capsys.readouterr()
