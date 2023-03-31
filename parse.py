@@ -94,11 +94,8 @@ def parse_pyproject(pyproject_data, dependency_path):
 
     return " ".join(dep_list)
 
-
-if __name__ == "__main__":
-
-    project_path = sys.argv[1]
-    dependency_path = sys.argv[2]
+def main(project_path, dependency_path):
+    """Main function for action."""
 
     with open(project_path, "rb") as f:
         pyproject_data = tomli.load(f)
@@ -106,3 +103,10 @@ if __name__ == "__main__":
     pip_deps = parse_pyproject(pyproject_data, dependency_path)
 
     sys.stdout.write(f"::set-output name=DEP::{pip_deps}")
+
+if __name__ == "__main__":
+
+    project_path = sys.argv[1]
+    dependency_path = sys.argv[2]
+
+    main(project_path, dependency_path)
