@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add support for setuptools style dependencies.
-- Add support for all poetry style dependencies.
+- Add support for poetry style dependencies.
 - Add unit tests.
 
 ### Changed
