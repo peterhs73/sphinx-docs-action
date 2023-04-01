@@ -6,10 +6,9 @@ The parser installs all dependencies including the optional ones.
 
 For poetry style dependencies, the versioning is converted to the pip style. For details on poetry dependencies, please refer to [poetry documentation](https://python-poetry.org/docs/dependency-specification/).
 
-.. Note::
-
-    Multiple constraints, git dependencies, and path dependencies are not supported. For these
-    dependencies, the user should add a separate requirement section in the pyproject.toml file.
+> **Warning**
+> Multiple constraints, git dependencies, and path dependencies are not supported. For these
+> dependencies, the user should add a separate requirement section in the pyproject.toml file.
 
 For setuptools dependencies, the user needs to input the dependency list location, to access the dependencies under "[project]" section, the "dependency-path" should be "project.dependencies".
 
