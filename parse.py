@@ -51,7 +51,7 @@ def modify_string(version_string):
         return caret_version(caret_match.group(1))
 
     # check for a range
-    regex_range = r"([><=]+\s*[0-9.*]+)\s*,?([><=]+\s*[0-9.*]+)$"
+    regex_range = r"^([><=]+\s*[0-9.*]+)\s*,?([><=]+\s*[0-9.*]+)$"
     range_match = re.match(regex_range, version_string)
     if range_match:
         return f'"{range_match.group(1)},{range_match.group(2)}"'
@@ -110,7 +110,7 @@ def main(project_path, dependency_path):
 
     pip_deps = parse_pyproject(pyproject_data, dependency_path)
 
-    sys.stdout.write(f"DEP=={pip_deps}")
+    sys.stdout.write(f"DEP={pip_deps}")
 
 if __name__ == "__main__":
 

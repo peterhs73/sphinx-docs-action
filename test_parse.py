@@ -129,7 +129,7 @@ def test_main(tmp_path, pyproject_str, capsys):
         f.write(pyproject_str)
 
     expected_poetry = (
-        "::set-output name=DEP::"
+        "DEP="
         "tomli>=2.0.0 tox==3.24.5 tox-gh-actions==2.10.0 "
         'sphinx">=6.1.3,<7.0.0" sphinx-rtd-theme~=1.0.0'
     )
