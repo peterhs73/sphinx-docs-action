@@ -110,7 +110,7 @@ def main(project_path, dependency_path):
 
     pip_deps = parse_pyproject(pyproject_data, dependency_path)
 
-    sys.stdout.write(f"::set-output name=DEP::{pip_deps}")
+    sys.stdout.write(f"DEP=={pip_deps}")
 
 if __name__ == "__main__":
 
