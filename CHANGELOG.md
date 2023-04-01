@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Bump actions/checkout from v2 to v3.
 - Bump actions/setup-python from v3 to v4.
-- Change set-output to the new actions environment file style.
+- Change set-output to the new actions command style.
 
 ## [0.1.0] - 2021-03-31
 
