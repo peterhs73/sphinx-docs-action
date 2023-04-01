@@ -31,6 +31,7 @@ jobs:
       - name: Deploy
         uses: peterhs73/sphinx-docs-action@v0.1.0
         with:
+          python-version: 3.8
           docs-source: docs/
           dependency-path: tool.poetry.dependencies
           external-repo: peterhs73/sphinx-docs
