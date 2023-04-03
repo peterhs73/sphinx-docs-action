@@ -10,12 +10,9 @@ inputs:
     required: true
     default: "3.8"
   pyproject-path:
-    description: "location of pyproject file"
+    description: "Location of the pyproject file with optional dependency path."
     required: true
-    default: "pyproject.toml"
-  dependency-path:
-    description: "dependency path in pyproject file"
-    required: true
+    default: "." # current directory
   docs-source:
     description: "sphinx docs source path"
     required: true
@@ -44,15 +41,8 @@ runs:
       uses: actions/setup-python@v4
       with:
         python-version: ${{ inputs.python-version }}
-    - name: Install tomli package
-      run: python -m pip install tomli
-      shell: bash
-    - name: Parse pyproject.toml
-      id: project-info
-      run: python ${{ github.action_path }}/parse.py ${{ inputs.pyproject-path }} ${{ inputs.dependency-path}} >> $GITHUB_OUTPUT
-      shell: bash
-    - name: Install Package Dependencies
-      run: python -m pip install ${{ steps.project-info.outputs.DEP }}
+    - name: Install dependencies
+      run: python -m pip install ${{ inputs.pyproject-path }}
       shell: bash
     - name: Build sphinx
       run: sphinx-build -b html ${{ inputs.docs-source }} ${{ inputs.docs-build }}
