@@ -1,5 +1,5 @@
 # action.yaml
-name: "Build and deploy python Sphinx documentation"
+name: "Build and deploy Python Sphinx documentation."
 description: "Build sphinx documentation based on pyproject.toml"
 branding:
   icon: 'corner-right-up'
@@ -8,9 +8,9 @@ inputs:
   python-version:
     description: "Python version"
     required: true
-    default: "3.8"
+    default: "3.10"
   pyproject-path:
-    description: "Location of the pyproject file with optional dependency path."
+    description: "location of the 'pyproject' file with optional dependency path"
     required: true
     default: "." # current directory
   docs-source:
