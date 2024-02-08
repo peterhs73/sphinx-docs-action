@@ -36,9 +36,9 @@ runs:
   using: "composite"
   steps:
     - name: Checkout repository content
-      uses: actions/checkout@v3 # Checkout the repository content to github runner.
+      uses: actions/checkout@v4 # Checkout the repository content to github runner.
     - name: Install Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ inputs.python-version }}
     - name: Install dependencies
